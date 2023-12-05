@@ -1,0 +1,61 @@
+[gd_scene load_steps=9 format=3 uid="uid://brlueilorseq6"]
+
+[ext_resource type="PackedScene" uid="uid://dvtud1jim42j8" path="res://scenes/entities/paddle/paddle.tscn" id="1_e31l7"]
+[ext_resource type="Script" path="res://scenes/world/arena.gd" id="1_eweuu"]
+[ext_resource type="PackedScene" uid="uid://cbwycjq3e7h0m" path="res://scenes/entities/paddle/ai_paddle.tscn" id="2_1fyb0"]
+[ext_resource type="PackedScene" uid="uid://dck4hds4p1fyl" path="res://scenes/entities/ball/ball.tscn" id="3_6djvl"]
+[ext_resource type="PackedScene" uid="uid://bji4rarcnbg5a" path="res://scenes/entities/goalzone/goalzone.tscn" id="4_rlxpj"]
+[ext_resource type="PackedScene" uid="uid://574vwyeb6b7n" path="res://scenes/ui/ui.tscn" id="5_mwpkv"]
+[ext_resource type="AudioStream" uid="uid://vnktmc1h2edn" path="res://assets/sounds/sfx/score.wav" id="7_7igjd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uham7"]
+size = Vector2(1169, 20)
+
+[node name="Arena" type="Node2D"]
+script = ExtResource("1_eweuu")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -25.0
+offset_top = -18.0
+offset_right = 1180.0
+offset_bottom = 680.0
+color = Color(0.00784314, 0.156863, 0.356863, 1)
+
+[node name="UI" parent="." instance=ExtResource("5_mwpkv")]
+
+[node name="Paddle" parent="." instance=ExtResource("1_e31l7")]
+position = Vector2(52, 324)
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls"]
+position = Vector2(574.5, 0)
+shape = SubResource("RectangleShape2D_uham7")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(574.5, 648)
+shape = SubResource("RectangleShape2D_uham7")
+
+[node name="AiPaddle" parent="." instance=ExtResource("2_1fyb0")]
+position = Vector2(1100, 324)
+
+[node name="Ball" parent="." instance=ExtResource("3_6djvl")]
+position = Vector2(576, 324)
+
+[node name="Goalzone" parent="." instance=ExtResource("4_rlxpj")]
+position = Vector2(-41, 329)
+
+[node name="Goalzone2" parent="." instance=ExtResource("4_rlxpj")]
+position = Vector2(1191, 322)
+player_owner = 2
+
+[node name="CountdownTimer" type="Timer" parent="." groups=["TimerGroup"]]
+wait_time = 3.0
+one_shot = true
+
+[node name="ScorePlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_7igjd")
+volume_db = -4.685
+bus = &"SFX"
+
+[connection signal="timeout" from="CountdownTimer" to="." method="_on_countdown_timer_timeout"]

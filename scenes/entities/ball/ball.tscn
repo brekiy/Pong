@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://dck4hds4p1fyl"]
+
+[ext_resource type="Script" path="res://scenes/entities/ball/ball.gd" id="1_btqeu"]
+[ext_resource type="Texture2D" uid="uid://bvtqk125mrwct" path="res://assets/sprites/ball.png" id="1_l1ayc"]
+[ext_resource type="AudioStream" uid="uid://ce7seiuer4e1w" path="res://assets/sounds/sfx/bounce.wav" id="3_i1c2i"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_458s5"]
+
+[node name="Ball" type="CharacterBody2D" groups=["BallGroup"]]
+scale = Vector2(1, 1.0129)
+motion_mode = 1
+script = ExtResource("1_btqeu")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_l1ayc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_458s5")
+
+[node name="BounceSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_i1c2i")
+volume_db = -8.432
